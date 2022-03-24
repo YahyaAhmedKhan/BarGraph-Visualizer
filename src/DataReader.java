@@ -18,6 +18,9 @@ public class DataReader {
 
     public DataReader(String fileName) {
 
+        labels = new ArrayList<String>();
+        values = new ArrayList<Double>();
+
         String label;
         double value;
         Scanner scanner;

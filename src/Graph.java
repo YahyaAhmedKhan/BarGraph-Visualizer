@@ -4,7 +4,7 @@ public abstract class Graph {
 
     private ArrayList<Bar> barList;
     public Graph(){
-
+        barList = new ArrayList<Bar>();
     }
     
     public abstract void drawBars(JavaGraphs javaGraph);

@@ -9,7 +9,7 @@ public abstract class Bar {
     private double height;
     private double width;
     private double originalHeight;
-    private Color color;
+    protected Color color;
     private String label;
 
     Bar(Point origin, double width, double height, String label) {

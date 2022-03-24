@@ -1,7 +1,4 @@
 import java.util.ArrayList;
-
-import javax.swing.text.Position;
-
 import java.awt.Point;
 
 public class BarLocationDeterminer {

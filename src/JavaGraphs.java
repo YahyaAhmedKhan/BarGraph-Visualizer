@@ -10,6 +10,7 @@ import javax.swing.JButton;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.util.ArrayList;
 
 public class JavaGraphs extends JFrame implements ActionListener {
 
@@ -28,8 +29,9 @@ public class JavaGraphs extends JFrame implements ActionListener {
     private Font defaultFont = new Font("TimesRoman", Font.PLAIN, 20);;
     private int barCount;
     private DataReader dataReader;
-
-    
+    private Graph horizontalGraph;
+    private Graph verticalGraph;
+    private JButton switchButton;
 
     public static int getGap() {
         return gap;
@@ -38,6 +40,7 @@ public class JavaGraphs extends JFrame implements ActionListener {
     public int getDrawWidth() {
         return drawWidth;
     }
+
     public int getDrawHeight() {
         return drawHeight;
     }
@@ -49,10 +52,6 @@ public class JavaGraphs extends JFrame implements ActionListener {
     public int getBarCount() {
         return barCount;
     }
-
-    private Graph horizontalGraph;
-    private Graph verticalGraph;
-    private JButton switchButton;
 
     public JavaGraphs(DataReader dataReader) {
         super("Graphs Program");
@@ -87,17 +86,28 @@ public class JavaGraphs extends JFrame implements ActionListener {
         double HoriRatio = BarHeightDeterminer.getBarHeight(this);
         double VertRatio = HoriRatio * ((double) drawHeight / drawWidth);
 
+        ArrayList<Point> HoriPoints = LocationDeterminer.getHorizontalPoints(this);
+        ArrayList<Point> VertPoints = LocationDeterminer.getVerticalPoints(this);
+
         for (int i = 0; i < barCount; i++) {
 
             String label = dataReader.getLabels().get(i);
             double value = dataReader.getValues().get(i);
+            Point horiOrigin = HoriPoints.get(i);
+            horiOrigin.setLocation(borderWidth, (borderWidth+2*gap) + horiOrigin.y);
+            Point vertOrigin = VertPoints.get(i);
+            vertOrigin.setLocation((borderWidth+2*gap) + horiOrigin.x, horiOrigin.y);
+
 
             Bar vBar = BarFactory.getInstance().getHorizontalBar();
             Bar hBar = BarFactory.getInstance().getHorizontalBar();
 
+            hBar.setOrigin(horiOrigin);
             hBar.setLabel(label);
             hBar.setHeight(value * HoriRatio);
             hBar.setWidth(HoriWidth);
+
+            vBar.setOrigin(vertOrigin);
             vBar.setLabel(label);
             vBar.setHeight(value * VertRatio);
             vBar.setWidth(VertWidth);
@@ -108,10 +118,20 @@ public class JavaGraphs extends JFrame implements ActionListener {
         }
     }
 
+    private void drawBorder() {
+        Graphics2D g2d = (Graphics2D) getGraphics();
+        g2d.drawRect(borderWidth, borderWidth, width - 2 * borderWidth, height - 2 * borderWidth);
+
+    }
+
     void draw(Graphics g) {
 
         Graphics2D g2d = (Graphics2D) g;
         // *****Add your code here*****
+        g2d.clearRect(0, 0, getWidth(), getHeight());
+        drawBorder();
+        // horizontalGraph.drawBars(this);
+        verticalGraph.drawBars(this);
 
         // ****************************
 
