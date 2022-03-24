@@ -7,7 +7,7 @@ public class BarHeightDeterminer {
 
     public static double getBarHeight(JavaGraphs javaGraph) {
 
-        int drawWidth = javaGraph.drawWidth;
+        int drawWidth = javaGraph.getDrawWidth();
 
         double maxValue = Collections.max(javaGraph.getDataReader().getValues());
 

@@ -4,7 +4,7 @@ public class BarWidthDeterminer {
 
         int gap = javaGraph.gap;
 
-        int drawHeight = javaGraph.drawHeight;
+        int drawHeight = javaGraph.getDrawHeight();
         int barCount = javaGraph.getBarCount();
 
         return ((((double) drawHeight-3*gap)/barCount)-gap);
