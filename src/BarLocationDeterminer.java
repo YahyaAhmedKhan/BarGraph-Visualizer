@@ -23,7 +23,8 @@ public class BarLocationDeterminer {
         double HoriWidth = BarWidthDeterminer.getBarWidth(javaGraph);
         int gap = javaGraph.getGap();
         int drawHeight = javaGraph.getDrawHeight();
-        double VertWidth = HoriWidth * ((double) (drawHeight - 3 * gap) / (drawHeight - 3 * gap));
+        int drawWidth = javaGraph.getDrawWidth();
+        double VertWidth = HoriWidth * ((double) (drawHeight - 3 * gap) / (drawWidth - 3 * gap));
 
         for (int i = 0; i < javaGraph.getBarCount(); i++) {
             points.add(new Point((int) (i * (VertWidth + gap)), 0));

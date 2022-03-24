@@ -94,23 +94,22 @@ public class JavaGraphs extends JFrame implements ActionListener {
             String label = dataReader.getLabels().get(i);
             double value = dataReader.getValues().get(i);
             Point horiOrigin = HoriPoints.get(i);
-            horiOrigin.setLocation(borderWidth, (borderWidth+2*gap) + horiOrigin.y);
+            horiOrigin.setLocation(borderWidth, (borderWidth + 2 * gap) + horiOrigin.y);
             Point vertOrigin = VertPoints.get(i);
-            vertOrigin.setLocation((borderWidth+2*gap) + horiOrigin.x, horiOrigin.y);
+            vertOrigin.setLocation((borderWidth + 2 * gap) + vertOrigin.x, borderWidth + drawHeight + vertOrigin.y);
 
-
-            Bar vBar = BarFactory.getInstance().getHorizontalBar();
             Bar hBar = BarFactory.getInstance().getHorizontalBar();
+            Bar vBar = BarFactory.getInstance().getVerticalBar();
 
             hBar.setOrigin(horiOrigin);
-            hBar.setLabel(label);
             hBar.setHeight(value * HoriRatio);
             hBar.setWidth(HoriWidth);
+            hBar.setLabel(label);
 
             vBar.setOrigin(vertOrigin);
-            vBar.setLabel(label);
             vBar.setHeight(value * VertRatio);
             vBar.setWidth(VertWidth);
+            vBar.setLabel(label);
 
             horizontalGraph.getBarList().add(hBar);
             verticalGraph.getBarList().add(vBar);
