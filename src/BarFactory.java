@@ -1,12 +1,12 @@
 import java.awt.Point;
 public class BarFactory {
 
-    BarFactory instance = null;
+    static BarFactory  instance = null;
     private BarFactory(){
 
     }
 
-    public BarFactory getInstance(){
+    public static BarFactory getInstance(){
         if(instance == null) {
             instance = new BarFactory();
         }

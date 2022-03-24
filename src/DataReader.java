@@ -8,6 +8,14 @@ public class DataReader {
     private ArrayList<String> labels;
     private ArrayList<Double> values;
 
+    public ArrayList<String> getLabels() {
+        return this.labels;
+    }
+
+    public ArrayList<Double> getValues() {
+        return this.values;
+    }
+
     public DataReader(String fileName) {
 
         String label;
@@ -35,5 +43,6 @@ public class DataReader {
         }
 
     }
+
 
 }
