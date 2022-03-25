@@ -1,4 +1,8 @@
-yahya 14.5
-abds 40.3
-ibbs 42.1
-amans 1.222
+
+ceve 0.4
+ceve 0.55
+ceve 0.44
+ceve 0.09
+ceve 1.2
+ceve 2.1
+ceve 1

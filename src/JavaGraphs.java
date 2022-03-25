@@ -1,8 +1,6 @@
 import javax.swing.JFrame;
 import javax.swing.SwingUtilities;
 import javax.swing.Timer;
-import javax.xml.crypto.Data;
-import javax.lang.model.element.VariableElement;
 import javax.swing.JButton;
 
 // import Graph.GraphArea;
@@ -20,7 +18,7 @@ public class JavaGraphs extends JFrame implements ActionListener {
     private int delay = 8;
     // private GraphArea area;
 
-    private static int borderWidth = 60;
+    private static int borderWidth = 50;
     public static int gap = 10;
     private int progress;
     private int progressTime;
@@ -82,6 +80,10 @@ public class JavaGraphs extends JFrame implements ActionListener {
     private void intializeBars() {
         double HoriWidth = BarWidthDeterminer.getBarWidth(this);
         double VertWidth = HoriWidth * ((double) (drawWidth - 3 * gap) / (drawHeight - 3 * gap));
+        System.out.println("horiWidth " + HoriWidth + "\n");
+        System.out.println("vertWidth " + VertWidth + "\n");
+        System.out.println("bar draw width " + (drawWidth - 3 * gap) + "\n");
+        System.out.println("bar draw height " + (drawHeight - 3 * gap) + "\n");
 
         double HoriRatio = BarHeightDeterminer.getBarHeight(this);
         double VertRatio = HoriRatio * ((double) drawHeight / drawWidth);
@@ -113,6 +115,10 @@ public class JavaGraphs extends JFrame implements ActionListener {
 
             horizontalGraph.getBarList().add(hBar);
             verticalGraph.getBarList().add(vBar);
+
+            // System.out.println("vP\n" + VertPoints);
+            // System.out.println();
+            // System.out.println("hP\n"+  HoriPoints);
 
         }
     }
