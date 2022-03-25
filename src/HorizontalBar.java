@@ -1,9 +1,5 @@
 import java.awt.Point;
 import java.awt.Color;
-import java.util.Random;
-
-import javax.lang.model.util.Elements.Origin;
-
 import java.awt.Graphics;
 
 public class HorizontalBar extends Bar {
@@ -15,5 +11,13 @@ public class HorizontalBar extends Bar {
     public void draw(Graphics g) {
         g.setColor(color);
         g.fillRect(getOrigin().x, getOrigin().y, (int) getHeight(), (int) getWidth());
+        // g.setColor(Color.BLACK);
+        // g.drawString(str, x, y);
+
+
+        int stringHeight = (g.getFontMetrics().getAscent()+g.getFontMetrics().getDescent())/2;
+
+        g.setColor(Color.BLACK);
+        g.drawString(getLabel(),(int) (getOrigin().x + getHeight() + 10), (int) (getOrigin().y + (getWidth() / 2.0) + (stringHeight / 3.0)));
     }
 }
