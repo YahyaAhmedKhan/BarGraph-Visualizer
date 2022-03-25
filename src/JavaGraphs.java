@@ -80,7 +80,7 @@ public class JavaGraphs extends JFrame implements ActionListener {
     private void intializeBars() {
         double HoriWidth = BarWidthDeterminer.getBarWidth(this);
         // double VertWidth = HoriWidth * ((double) (drawWidth - 3 * gap) / (drawHeight - 3 * gap));
-        double VertWidth = (((double) (drawWidth-3*gap)/(barCount)) - gap);
+        double VertWidth = HoriWidth * ((drawWidth-((barCount+3)*gap))/(double)(drawHeight -((barCount+3)*gap)));
         //CW*raio + gap  )) *barcount = drawwitdh-3gap
         //drawW-3gap / ((barC)) - gap
         System.out.println("horiWidth " + HoriWidth + "\n");
@@ -114,6 +114,7 @@ public class JavaGraphs extends JFrame implements ActionListener {
             vBar.setOrigin(vertOrigin);
             vBar.setHeight(value * VertRatio);
             vBar.setWidth(VertWidth);
+            System.out.println(VertWidth);
             vBar.setLabel(label);
 
             horizontalGraph.getBarList().add(hBar);
