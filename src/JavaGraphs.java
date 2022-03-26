@@ -94,8 +94,6 @@ public class JavaGraphs extends JFrame implements ActionListener {
         // - 3 * gap));
         double VertWidth = HoriWidth
                 * ((drawWidth - ((barCount + 3) * gap)) / (double) (drawHeight - ((barCount + 3) * gap)));
-        // CW*raio + gap )) *barcount = drawwitdh-3gap
-        // drawW-3gap / ((barC)) - gap
         System.out.println("horiWidth " + HoriWidth + "\n");
         System.out.println("vertWidth " + VertWidth + "\n");
         System.out.println("vert bar draw width " + (drawWidth - 3 * gap) + "\n");
