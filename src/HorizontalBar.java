@@ -15,9 +15,9 @@ public class HorizontalBar extends Bar {
         // g.drawString(str, x, y);
 
 
-        int stringHeight = (g.getFontMetrics().getAscent()+g.getFontMetrics().getDescent())/2;
+        int stringHeight = (g.getFontMetrics().getAscent());
 
         g.setColor(Color.BLACK);
-        g.drawString(getLabel(),(int) (getOrigin().x + getHeight() + 10), (int) (getOrigin().y + (getWidth() / 2.0) + (stringHeight / 3.0)));
+        g.drawString(getLabel(),(int) (getOrigin().x + getHeight() + 10), (int) (getOrigin().y + (getWidth() / 2) + stringHeight/2));
     }
 }
