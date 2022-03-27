@@ -31,7 +31,7 @@ public class LocationDeterminer {
         for (int i = 0; i < javaGraph.getBarCount(); i++) {
             points.add(new Point((int) (i * (VertWidth + gap)), 0));
         }
-        System.out.println("points verti " + points);
+        // System.out.println("points verti " + points);
 
         return points;
     }
