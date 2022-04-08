@@ -16,13 +16,13 @@ import java.util.Collections;
 public class JavaGraphs extends JFrame implements ActionListener {
 
     private static int width = 800;
-    private static int height = 800;
+    private static int height = 600;
     private Timer timer;
     private int delay = 14;
     // private GraphArea area;
 
     private static int borderWidth = 50;
-    public static int gap = 10;
+    private static int gap = 10;
     private int progress = 0;
     private int progressTime = 300;
     private int drawHeight = height - 2 * borderWidth;
@@ -36,7 +36,7 @@ public class JavaGraphs extends JFrame implements ActionListener {
     private boolean showHorizontalGraph = true;
     private Font yAxisFont;
 
-    public static int getGap() {
+    public int getGap() {
         return gap;
     }
 
