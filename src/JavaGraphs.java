@@ -27,7 +27,7 @@ public class JavaGraphs extends JFrame implements ActionListener
     private int drawWidth = width - 2 * borderWidth;
     private Font defaultFont = new Font("TimesRoman", Font.PLAIN, 20);
     private int barCount;
-    // private DataReader dataReader;
+    private DataReader dataReader;
     private Graph horizontalGraph;
     private Graph verticalGraph;
     // private JButton switchButton;
@@ -45,9 +45,9 @@ public class JavaGraphs extends JFrame implements ActionListener
         return drawHeight;
     }
 
-    // public DataReader getDataReader() {
-    //     return dataReader;
-    // }
+    public DataReader getDataReader() {
+        return dataReader;
+    }
 
     public int getBarCount() {
         return barCount;
