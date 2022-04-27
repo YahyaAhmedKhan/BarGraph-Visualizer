@@ -5,8 +5,8 @@ public class BarHeightDeterminer {
 
     public static double getRatio(JavaGraphs javagraph) {
 
-        int Maxheight = (int) (javagraph.getDrawHeight() * (0.85));
-        ratio = Maxheight / Collections.max(javagraph.getDataReader().getValues());
+        int maxHeight = (int) (javagraph.getDrawHeight() * (0.85));
+        ratio = maxHeight / Collections.max(javagraph.getDataReader().getValues());
         return ratio;
     }
 
