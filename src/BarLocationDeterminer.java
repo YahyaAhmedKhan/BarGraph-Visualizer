@@ -7,11 +7,11 @@ public class BarLocationDeterminer {
 
         ArrayList<Point> points = new ArrayList<Point>();
 
-        double HoriWidth = BarWidthDeterminer.getBarWidth(javaGraph);
+        double horiWidth = BarWidthDeterminer.getBarWidth(javaGraph);
         int gap = javaGraph.getGap();
 
         for (int i = 0; i < javaGraph.getBarCount(); i++) {
-            points.add(new Point(0, (int) (i * (HoriWidth + gap))));
+            points.add(new Point(0, (int) (i * (horiWidth + gap))));
         }
         return points;
     }
@@ -20,17 +20,15 @@ public class BarLocationDeterminer {
 
         ArrayList<Point> points = new ArrayList<Point>();
 
-        double HoriWidth = BarWidthDeterminer.getBarWidth(javaGraph);
+        double horiWidth = BarWidthDeterminer.getBarWidth(javaGraph);
         int gap = javaGraph.getGap();
         int drawHeight = javaGraph.getDrawHeight();
         int drawWidth = javaGraph.getDrawWidth();
-        
-        // double VertWidth = HoriWidth * ((double) (drawHeight - 3 * gap) / (drawWidth - 3 * gap));
 
-        double VertWidth = 37;
+        double vertWidth = horiWidth * ((double) (drawHeight - 3 * gap) / (drawWidth - 3 * gap));
 
         for (int i = 0; i < javaGraph.getBarCount(); i++) {
-            points.add(new Point((int) (i * (VertWidth + gap)), 0));
+            points.add(new Point((int) (i * (vertWidth + gap)), 0));
         }
         return points;
     }

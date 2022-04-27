@@ -8,7 +8,7 @@ public class BarWidthDeterminer {
         int barCount = javaGraph.getBarCount();
 
         return ((((double) drawHeight-3*gap)/barCount)-gap);
-    } //mine
+    } //mine ^^^
 
     // public static double getBarWidth(JavaGraphs javaGraphs)
     // {
@@ -18,6 +18,6 @@ public class BarWidthDeterminer {
     //     double barWidth = (double) (drawingHeight - (barCount + 3) * gap) / barCount;
 
     //     return barWidth;
-    // } //tariqs
+    // } //tariqs ^^^
     
 }
