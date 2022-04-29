@@ -158,6 +158,7 @@ public class JavaGraphs extends JFrame implements ActionListener {
         int stringHeight = (g2d.getFontMetrics().getAscent());
         // int stringHeight = (g2d.getFontMetrics().getAscent() +
         // g2d.getFontMetrics().getDescent()) / 2; //upper definiton is better
+        // 
 
         if (horizontal) { // horizontal graph, labels on x-axis
             g2d.setColor(Color.BLACK);
