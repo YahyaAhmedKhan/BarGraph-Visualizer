@@ -115,7 +115,6 @@ public class JavaGraphs extends JFrame implements ActionListener {
 
             }
         }
-
     }
 
     void draw(Graphics g) {
