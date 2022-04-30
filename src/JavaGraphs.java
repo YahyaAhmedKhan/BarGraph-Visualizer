@@ -32,7 +32,8 @@ public class JavaGraphs extends JFrame implements ActionListener {
     private Graph verticalGraph;
     private JButton switchButton;
     private boolean showHorizontalGraph = true;
-    private Font yAxisFont;
+    private Font horiLabelFont;
+    private int tima = 0;
 
     public int getGap() {
         return gap;
@@ -91,6 +92,8 @@ public class JavaGraphs extends JFrame implements ActionListener {
 
     private void intializeBars() {
         double horiWidth = BarWidthDeterminer.getBarWidth(this);
+        horiLabelFont = new Font("TimesRoman", Font.PLAIN, (int) horiWidth);
+
         // double vertWidth = horiWidth * ((double) (drawWidth - 3 * gap) / (drawHeight
         // - 3 * gap));
         double vertWidth = horiWidth
@@ -156,13 +159,14 @@ public class JavaGraphs extends JFrame implements ActionListener {
         Graphics2D g2d = (Graphics2D) getGraphics();
         double maxValue = Collections.max(getDataReader().getValues());
         int stringHeight = (g2d.getFontMetrics().getAscent());
+        setFont(defaultFont);
+
         // int stringHeight = (g2d.getFontMetrics().getAscent() +
         // g2d.getFontMetrics().getDescent()) / 2; //upper definiton is better
-        // 
+        //
 
         if (horizontal) { // horizontal graph, labels on x-axis
             g2d.setColor(Color.BLACK);
-            setFont(defaultFont);
             double markDistance = (drawWidth * 0.85) / 10;
             int xAxisPosition = height - borderWidth; // the y value for the bottom of the graph (x-axis)
             String labelString;
@@ -247,11 +251,12 @@ public class JavaGraphs extends JFrame implements ActionListener {
     }
 
     void draw(Graphics g) {
+        Toolkit.getDefaultToolkit().sync();
 
         Graphics2D g2d = (Graphics2D) g;
         // *****Add your code here*****
         // setFont(defaultFont);
-        g2d.clearRect(0, 0, getWidth(), getHeight());
+        // g2d.clearRect(0, 0, getWidth(), getHeight());
         drawBorder();
         drawAxisLabels();
         if (progress < progressTime) {
@@ -265,6 +270,7 @@ public class JavaGraphs extends JFrame implements ActionListener {
         progress++;
 
         if (showHorizontalGraph) {
+            // setFont(horiLabelFont);
             horizontalGraph.drawBars(this);
         } else
             verticalGraph.drawBars(this);
@@ -273,6 +279,7 @@ public class JavaGraphs extends JFrame implements ActionListener {
     }
 
     public void paint(Graphics g) {
+        super.paint(g);
         draw(g);
         g.dispose();
 
@@ -298,6 +305,10 @@ public class JavaGraphs extends JFrame implements ActionListener {
         if (e.getSource() == switchButton) {
             showHorizontalGraph ^= true;
         }
+        // tima++;
+        // if (tima % 1  == 0) {
+        //     repaint();
+        // }
 
         repaint();
     }
