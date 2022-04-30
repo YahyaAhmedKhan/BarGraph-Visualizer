@@ -152,24 +152,32 @@ public class JavaGraphs extends JFrame implements ActionListener {
      * Draws the axis marks (on every 10% percent of largest bar),
      * also draws the number labels on these marks.
      */
-    private void drawAxisLabels() { // Done by Tariq
+    private void drawAxisLabels() {
         boolean horizontal = showHorizontalGraph;
         Graphics g = getGraphics();
         double maxValue = Collections.max(getDataReader().getValues());
         int stringHeight = (g.getFontMetrics().getAscent());
+
+
 
         if (horizontal) { // horizontal graph, labels on x-axis
             g.setColor(Color.BLACK);
             setFont(defaultFont);
             int markDistance = (int) (drawWidth * 0.85) / 10;
             int xAxisPosition = height - borderWidth; // the y value for the bottom of the graph (x-axis)
-            int y1LineCoordinate = xAxisPosition - 10;
-            int y2LineCoordinate = xAxisPosition + 10;
+            int y1MarkCoordinate = xAxisPosition - 10;
+            int y2MarkCoordinate = xAxisPosition + 10;
+            int yStringCoordinate = xAxisPosition + 13 + stringHeight;
             String labelString;
+
             for (int i = 0; i < 11; i++) {
 
-                g.drawLine(borderWidth + i * markDistance, y1LineCoordinate, borderWidth + i * markDistance,
-                        y2LineCoordinate);
+                int xMarkCoordinate = borderWidth + i * markDistance;
+                g.drawLine(xMarkCoordinate, y1MarkCoordinate, xMarkCoordinate, y2MarkCoordinate);
+                labelString = maxValue * i/10 + "";
+                int xStringCoordinate = xMarkCoordinate - g.getFontMetrics().stringWidth(labelString)/2;
+                g.drawString(labelString, xStringCoordinate, yStringCoordinate);
+
             }
 
         } else { // vertical graph, labels on y-axis
@@ -177,18 +185,25 @@ public class JavaGraphs extends JFrame implements ActionListener {
             g.setColor(Color.BLACK);
             int markDistance = (int) (drawHeight * 0.85) / 10;
             int yAxisPosition = borderWidth; // the x value for the left of the graph (y-axis)
-            int x1LineCoordinate = yAxisPosition + 10;
-            int x2LineCoordinate = yAxisPosition - 10;
-            String labelString;
             int lowestMarkHeight = height - borderWidth;
+            int x1MarkCoordinate = yAxisPosition + 10;
+            int x2MarkCoordinate = yAxisPosition - 10;
+            String labelString;
+
+
 
             for (int i = 0; i < 11; i++) {
 
-                g.drawLine(x1LineCoordinate, lowestMarkHeight - i * markDistance, x2LineCoordinate,
-                        lowestMarkHeight - i * markDistance);
+                int yMarkCoordinate = lowestMarkHeight - i * markDistance;
+                g.drawLine(x1MarkCoordinate, yMarkCoordinate, x2MarkCoordinate, yMarkCoordinate);
+                labelString = maxValue * i/10 + "";
+                int xStringCoordinate = yAxisPosition - (13 + g.getFontMetrics().stringWidth(labelString));
+                int yStringCoordinate = yMarkCoordinate + stringHeight / 2;
+                g.drawString(labelString, xStringCoordinate, yStringCoordinate);
 
             }
         }
+
     }
 
     void draw(Graphics g) {
