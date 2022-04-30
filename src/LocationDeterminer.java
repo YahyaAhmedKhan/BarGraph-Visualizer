@@ -1,7 +1,7 @@
 import java.util.ArrayList;
 import java.awt.Point;
 
-public class BarLocationDeterminer {
+public class LocationDeterminer {
 
     public static ArrayList<Point> getHorizontalPoints(JavaGraphs javaGraph) {
 

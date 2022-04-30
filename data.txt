@@ -1,0 +1,7 @@
+tariq 10
+yahya 12
+fawaz 14
+ali 20.23
+boi 9.44
+shaheer 2.898
+hmmmm 5.5

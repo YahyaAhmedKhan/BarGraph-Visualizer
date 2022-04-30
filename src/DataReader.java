@@ -31,7 +31,7 @@ public class DataReader {
         return values;
     }
 
-    public ArrayList<String> getlabels() {
+    public ArrayList<String> getLabels() {
         return labels;
     }
 
