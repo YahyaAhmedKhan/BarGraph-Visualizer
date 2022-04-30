@@ -170,7 +170,6 @@ public class JavaGraphs extends JFrame implements ActionListener {
 
                 g.drawLine(borderWidth + i * markDistance, y1LineCoordinate, borderWidth + i * markDistance,
                         y2LineCoordinate);
-
             }
 
         } else { // vertical graph, labels on y-axis
