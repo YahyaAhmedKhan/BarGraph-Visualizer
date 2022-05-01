@@ -84,7 +84,6 @@ public class JavaGraphs extends JFrame implements ActionListener {
         setFont(defaultFont);
     }
 
-    
     /**
      * Sets up the bars by setting their fields to the correct values, e.g the
      * label, width, height etc.
@@ -160,60 +159,76 @@ public class JavaGraphs extends JFrame implements ActionListener {
         double maxValue = Collections.max(getDataReader().getValues());
         int stringHeight = (g.getFontMetrics().getAscent());
 
-        if (horizontal) { // horizontal graph, labels on x-axis
+        if (horizontal) { // horizontal graph, labels and marks on x-axis
+
             g.setColor(Color.BLACK);
-            int markDistance = (int) (drawWidth * 0.85) / 10;
-            int xAxisPosition = height - borderWidth; // the y value for the bottom of the graph (x-axis)
-            int y1MarkCoordinate = xAxisPosition - 10;
-            int y2MarkCoordinate = xAxisPosition + 10;
-            int yStringCoordinate = xAxisPosition + 13 + stringHeight;
-            String labelString;
+            int markDistance = (int) (drawWidth * 0.85) / 10; // the x distance b/w 2 adjacent marks
+            int xAxisPosition = height - borderWidth; // the y-coord for the bottom of the graph (at the x-axis)
+            int markTopY = xAxisPosition - 10; // y-coord for top of the marks
+            int markBottomY = xAxisPosition + 10; // y-coord for bottom of the marks
+            int stringY = xAxisPosition + 13 + stringHeight; // y-coord for the (bottom of) label
+            String label;
 
             for (int i = 0; i < 11; i++) {
 
-                int xMarkCoordinate = borderWidth + i * markDistance;
-                g.drawLine(xMarkCoordinate, y1MarkCoordinate, xMarkCoordinate, y2MarkCoordinate);
-                labelString = String.format("%.2f", maxValue * (i / 10.0));
-                int xStringCoordinate = xMarkCoordinate - g.getFontMetrics().stringWidth(labelString) / 2;
-                g.drawString(labelString, xStringCoordinate, yStringCoordinate);
+                int markX = borderWidth + i * markDistance; // x-coord for the marks
+                g.drawLine(markX, markTopY, markX, markBottomY); // drawing the mark line
+                label = String.format("%.2f", maxValue * (i / 10.0)); // getting the label value to decimals
+                int stringX = markX - g.getFontMetrics().stringWidth(label) / 2; // x-coord for label (centered at mark)
+                g.drawString(label, stringX, stringY); // drawing the number label
 
             }
 
         } else { // vertical graph, labels on y-axis
 
             g.setColor(Color.BLACK);
-            int markDistance = (int) (drawHeight * 0.85) / 10;
-            int yAxisPosition = borderWidth; // the x value for the left of the graph (y-axis)
-            int lowestMarkHeight = height - borderWidth;
-            int x1MarkCoordinate = yAxisPosition + 10;
-            int x2MarkCoordinate = yAxisPosition - 10;
-            String labelString;
+            int markDistance = (int) (drawHeight * 0.85) / 10; // the y distance b/w 2 adjacent marks
+            int yAxisPosition = borderWidth; // the x-coord for the left of the graph (at the y-axis)
+            int lowestMarkHeight = height - borderWidth; // y-coord for lowest mark
+            int markRightX = yAxisPosition + 10; // x-coord for the mark's right end
+            int markLeftX = yAxisPosition - 10; // x-coord for the mark's left end
+            String label;
 
             for (int i = 0; i < 11; i++) {
 
-                int yMarkCoordinate = lowestMarkHeight - i * markDistance;
-                g.drawLine(x1MarkCoordinate, yMarkCoordinate, x2MarkCoordinate, yMarkCoordinate);
-                labelString = String.format("%.2f", maxValue * (i / 10.0));
-                int xStringCoordinate = yAxisPosition - (13 + g.getFontMetrics().stringWidth(labelString));
-                int yStringCoordinate = yMarkCoordinate + stringHeight / 2;
-                g.drawString(labelString, xStringCoordinate, yStringCoordinate);
+                int markY = lowestMarkHeight - i * markDistance; // y-coord for the marks
+                g.drawLine(markRightX, markY, markLeftX, markY); // drawing the mark line
+                label = String.format("%.2f", maxValue * (i / 10.0)); // getting the label value to decimals
+                int labelX = yAxisPosition - (13 + g.getFontMetrics().stringWidth(label)); // x-coord for label (with
+                                                                                           // gap away from mark)
+                int labelY = markY + stringHeight / 2; // y-coord for label
+                g.drawString(label, labelX, labelY); // drawing the number label
 
             }
         }
 
     }
 
+    /**
+     * draws the visuals on the javaGraph's graphics
+     * 
+     * @param g the graphics object on which to draw
+     */
     void draw(Graphics g) {
 
         // *****Add your code here*****
-        g.clearRect(0, 0, getWidth(), getHeight());
+
+        // g.clearRect(0, 0, getWidth(), getHeight()); // clears screen before redrawing
         drawBorder();
         drawAxisLabels();
 
         Bar bar;
-        if (progress < progressTime) {
-            progress++;
+
+        // Animating the bars growing at the start:
+        if (progress < progressTime) { // keep growing until at 100$ final length
+            progress++; // increment the progress/ the lenght of the bar
+
+            // for all bars:
+            // sets the height of the bar to (progress/progressTime)^2 of actual height
+            // the fraction ( progress / progressTime ) ^ 2 appraoches 1 as progress grows
+            // fraction grows quadratically, simulating acceleration
             for (int i = 0; i < barCount; i++) {
+
                 bar = horizontalGraph.getBarList().get(i);
                 bar.setHeight((int) (bar.getOriginalHeight() * progress * progress / (progressTime * progressTime)));
                 bar = verticalGraph.getBarList().get(i);
@@ -221,40 +236,36 @@ public class JavaGraphs extends JFrame implements ActionListener {
             }
         }
 
-        // setFont(defaultFont);
-
-        if (showHorizontalGraph) {
-
+        // Draws either of the 2 graphs depending on selection:
+        if (showHorizontalGraph)
             horizontalGraph.drawBars(this);
-        } else
+        else
             verticalGraph.drawBars(this);
 
-        // Toolkit.getDefaultToolkit().sync();
+        switchButton.repaint();
+
         // ****************************
     }
 
+    @Override
     public void paint(Graphics g) {
-        // super.paint(g);
+        super.paint(g);
         draw(g);
-        // g.dispose();
-        // Toolkit.getDefaultToolkit().sync();
-        // switchButton.revalidate();
-        switchButton.repaint();
+        g.dispose();
 
-    }
-
-    public static void main(String[] args) throws Exception {
-        new JavaGraphs(new DataReader("data.txt")).setVisible(true);
     }
 
     @Override
     public void actionPerformed(ActionEvent e) {
 
         if (e.getSource() == switchButton) {
-            showHorizontalGraph ^= true;
+            showHorizontalGraph ^= true; // switches the Graph Selection if Button is pressed
         }
-
         repaint();
+    }
+
+    public static void main(String[] args) throws Exception {
+        new JavaGraphs(new DataReader("data.txt")).setVisible(true);
     }
 
 }
