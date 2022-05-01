@@ -9,44 +9,76 @@ import java.util.Collections;
 
 public class JavaGraphs extends JFrame implements ActionListener {
 
-    private static int width = 800;
-    private static int height = 600;
-    private static int borderWidth = 70;
-    private static int gap = 10;
+    private static int width = 800; // width of the window (the Jframe)
+    private static int height = 600; // height of the window (the Jframe)
+    private static int borderWidth = 70; // distance of the border away from the window's sides
+    private static int gap = 10; // gap between adjacently drawn bars
     private Timer timer;
-    private int delay = 20;
-    private int progress = 0;
-    private int progressTime = 300;
-    private int drawHeight = height - 2 * borderWidth;
-    private int drawWidth = width - 2 * borderWidth;
+    private int delay = 17;
+    private int progress = 0; // variable that helps in animating the bars grow bigger
+    private int progressTime = 300; // linked to progress, determines how long animation will take
+    private int drawHeight = height - 2 * borderWidth; // the height within the borders
+    private int drawWidth = width - 2 * borderWidth; // the width within the borders
     private Font defaultFont = new Font("Sans Fransisco", Font.PLAIN, 15);
-    private int barCount;
-    private DataReader dataReader;
+    private int barCount; // number of bars (in any one Graph)
+    private DataReader dataReader; // dataReader object, helps to read from "data.txt" file
     private Graph horizontalGraph;
     private Graph verticalGraph;
     private JButton switchButton;
-    private boolean showHorizontalGraph = true;
+    private boolean showHorizontalGraph = true; // selection of the Graph to be shown (Horizontal:True, Vertical:False)
 
+    /**
+     * gets the gap between adjacently drawn bars
+     * 
+     * @return the gap between the bars
+     */
     public int getGap() {
         return gap;
     }
 
+    /**
+     * gets the width within the borders
+     * 
+     * @return the drawing area's width
+     */
     public int getDrawWidth() {
         return drawWidth;
     }
 
+    /**
+     * gets the height within the borders
+     * 
+     * @return the drawing area's height
+     */
     public int getDrawHeight() {
         return drawHeight;
     }
 
+    /**
+     * gets the javaGraph's DataReader object
+     * 
+     * @return the DataReadear object
+     */
     public DataReader getDataReader() {
         return dataReader;
     }
 
+    /**
+     * gets the number of bars in the javaGraph
+     * 
+     * @return the number of bars
+     */
     public int getBarCount() {
         return barCount;
     }
 
+    /**
+     * Makes a new JavaGraphs object, using the information in the passed DataReader
+     * Object.
+     * 
+     * @param dataReader the DataReader which has read from the dataFile to be
+     *                   Graphed
+     */
     public JavaGraphs(DataReader dataReader) {
         super("Graphs Program");
 
@@ -55,7 +87,7 @@ public class JavaGraphs extends JFrame implements ActionListener {
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setLocationRelativeTo(null);
         setLayout(null);
-        // *****Add your code here*****
+        // **Add your code here**
         this.dataReader = dataReader;
         setup();
         intializeBars();
@@ -143,9 +175,9 @@ public class JavaGraphs extends JFrame implements ActionListener {
     /**
      * Draws the rectangular border within which the bars are drawn.
      */
-    private void drawBorder() { // Done by Tariq
+    private void drawBorder(Graphics g) {
 
-        getGraphics().drawRect(borderWidth, borderWidth, drawWidth, drawHeight);
+        g.drawRect(borderWidth, borderWidth, drawWidth, drawHeight);
 
     }
 
@@ -153,13 +185,12 @@ public class JavaGraphs extends JFrame implements ActionListener {
      * Draws the axis marks (on every 10% percent of largest bar),
      * also draws the number labels on these marks.
      */
-    private void drawAxisLabels() {
-        boolean horizontal = showHorizontalGraph;
-        Graphics g = getGraphics();
+    private void drawAxisLabels(Graphics g) {
+
         double maxValue = Collections.max(getDataReader().getValues());
         int stringHeight = (g.getFontMetrics().getAscent());
 
-        if (horizontal) { // horizontal graph, labels and marks on x-axis
+        if (showHorizontalGraph) { // horizontal graph, labels and marks on x-axis
 
             g.setColor(Color.BLACK);
             int markDistance = (int) (drawWidth * 0.85) / 10; // the x distance b/w 2 adjacent marks
@@ -211,16 +242,16 @@ public class JavaGraphs extends JFrame implements ActionListener {
      */
     void draw(Graphics g) {
 
-        // *****Add your code here*****
+        // ********Add your code here********
 
         g.clearRect(0, 0, getWidth(), getHeight()); // clears screen before redrawing
-        drawBorder();
-        drawAxisLabels();
+        drawBorder(g);
+        drawAxisLabels(g);
 
         Bar bar;
 
         // Animating the bars growing at the start:
-        if (progress < progressTime) { // keep growing until at 100$ final length
+        if (progress < progressTime) { // keep growing until at 100% of final length
             progress++; // increment the progress/ the lenght of the bar
 
             // for all bars:
@@ -249,7 +280,7 @@ public class JavaGraphs extends JFrame implements ActionListener {
 
     @Override
     public void paint(Graphics g) {
-        // super.paint(g);
+
         draw(g);
         g.dispose();
 
@@ -262,6 +293,7 @@ public class JavaGraphs extends JFrame implements ActionListener {
             showHorizontalGraph ^= true; // switches the Graph Selection if Button is pressed
         }
         repaint();
+
     }
 
     public static void main(String[] args) throws Exception {
