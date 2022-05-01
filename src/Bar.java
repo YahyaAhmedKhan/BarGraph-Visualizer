@@ -1,5 +1,4 @@
 import java.awt.Point;
-import java.text.CollationElementIterator;
 import java.awt.Color;
 import java.util.Random;
 import java.awt.font.TextLayout;
@@ -12,7 +11,7 @@ public abstract class Bar {
     private double originalHeight;
     protected Color color;
     private String label;
-    protected TextLayout tl;
+    private TextLayout getTL;
 
     Bar(Point origin, double width, double height, String label) {
         this.origin = origin;
@@ -66,5 +65,13 @@ public abstract class Bar {
     public void setLabel(String label) {
         this.label = label;
     }
+
+    public TextLayout getTl() {
+        return this.getTL;
+    }
+    public void setTL(TextLayout tl) {
+        this.getTL = tl;
+    }
+
 
 }

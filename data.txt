@@ -1,6 +1,10 @@
-ceve 0.4
-PITY 0.55
-ceve 0.44
-ceve 0.09
-ceve 1.2
-cevefsds 2.1
+cars 10.3
+planes 6.8
+trucks 9.111
+jets 12.5
+pogo 5
+motorbikes 15.904
+lamborghini 11
+kia-sportage 7.543321
+aventador 1.50
+mercedéz-benz 5
