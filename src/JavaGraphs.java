@@ -1,7 +1,5 @@
 import javax.swing.JFrame;
-import javax.swing.SwingUtilities;
 import javax.swing.Timer;
-import java.awt.font.TextLayout;
 import javax.swing.JButton;
 import java.awt.*;
 import java.awt.event.ActionEvent;
@@ -64,32 +62,43 @@ public class JavaGraphs extends JFrame implements ActionListener {
 
         // ****************************
         timer = new Timer(delay, this);
-        // timer.addActionListener(this);
         timer.start();
-        System.out.println(getFont());
-
     }
 
+    /**
+     * Initializes the javaGraph object, setting and making necessary fields
+     */
     private void setup() {
 
-        horizontalGraph = GraphFactory.getInstance().getGraph(true);
-        verticalGraph = GraphFactory.getInstance().getGraph(false);
+        horizontalGraph = GraphFactory.getInstance().getGraph(true); // creating/getting a horizontalGraph
+        verticalGraph = GraphFactory.getInstance().getGraph(false); // creating/getting a verticalGraph
 
-        barCount = dataReader.getValues().size();
+        barCount = dataReader.getValues().size(); // setting the number of Bars
 
         switchButton = new JButton("switch");
         switchButton.setLocation(width - 100, height - 60);
         switchButton.setSize(100, 30);
         switchButton.addActionListener(this);
         getContentPane().add(switchButton);
+
+        setFont(defaultFont);
     }
 
+    
+    /**
+     * Sets up the bars by setting their fields to the correct values, e.g the
+     * label, width, height etc.
+     */
     private void intializeBars() {
+
         double horiWidth = BarWidthDeterminer.getBarWidth(this);
+        double horiRatio = BarHeightDeterminer.getBarHeight(this);
+
+        // Deriving the vertical bar widths from the horizontal bar width:
         double vertWidth = horiWidth
                 * ((drawWidth - ((barCount + 3) * gap)) / (double) (drawHeight - ((barCount + 3) * gap)));
 
-        double horiRatio = BarHeightDeterminer.getBarHeight(this);
+        // Deriving the vertical bar Height Ratio from the horizontal bar height Ratio:
         double vertRatio = horiRatio * ((double) drawHeight / drawWidth);
 
         ArrayList<Point> horiPoints = LocationDeterminer.getHorizontalPoints(this);
@@ -97,38 +106,47 @@ public class JavaGraphs extends JFrame implements ActionListener {
 
         for (int i = 0; i < barCount; i++) {
 
+            // extract the label, and value/height for the bar in vairables
             String label = dataReader.getLabels().get(i);
             double value = dataReader.getValues().get(i);
+
+            // setting the bars origin point
             Point horiOrigin = horiPoints.get(i);
             horiOrigin.setLocation(borderWidth, (borderWidth + 2 * gap) + horiOrigin.y);
             Point vertOrigin = vertPoints.get(i);
             vertOrigin.setLocation((borderWidth + 2 * gap) + vertOrigin.x, borderWidth + drawHeight + vertOrigin.y);
 
+            // create a new bar
             Bar hBar = BarFactory.getInstance().getHorizontalBar();
             Bar vBar = BarFactory.getInstance().getVerticalBar();
 
+            // setting the origin, height, width, and label for the horizontal bars:
             hBar.setOrigin(horiOrigin);
             hBar.setHeight(value * horiRatio);
             hBar.setOriginalHeight(value * horiRatio);
-
             hBar.setWidth(horiWidth);
             hBar.setLabel(label);
 
+            // setting the origin, height, width, and label for the horizontal bars:
             vBar.setOrigin(vertOrigin);
             vBar.setHeight(value * vertRatio);
             vBar.setOriginalHeight(value * vertRatio);
             vBar.setWidth(vertWidth);
             vBar.setLabel(label);
 
+            // add the correctly setup bar to its respective Graph
             horizontalGraph.getBarList().add(hBar);
             verticalGraph.getBarList().add(vBar);
 
         }
     }
 
-    private void drawBorder(Graphics g) {
+    /**
+     * Draws the rectangular border within which the bars are drawn.
+     */
+    private void drawBorder() { // Done by Tariq
 
-        g.drawRect(borderWidth, borderWidth, width - 2 * borderWidth, height - 2 * borderWidth);
+        getGraphics().drawRect(borderWidth, borderWidth, drawWidth, drawHeight);
 
     }
 
@@ -138,25 +156,26 @@ public class JavaGraphs extends JFrame implements ActionListener {
      */
     private void drawAxisLabels() {
         boolean horizontal = showHorizontalGraph;
-        Graphics2D g = (Graphics2D) getGraphics();
+        Graphics g = getGraphics();
         double maxValue = Collections.max(getDataReader().getValues());
         int stringHeight = (g.getFontMetrics().getAscent());
-        if (horizontal) { // horizontal graph, labels on x-axis
 
+        if (horizontal) { // horizontal graph, labels on x-axis
             g.setColor(Color.BLACK);
-            double markDistance = (drawWidth * 0.85) / 10;
+            int markDistance = (int) (drawWidth * 0.85) / 10;
             int xAxisPosition = height - borderWidth; // the y value for the bottom of the graph (x-axis)
+            int y1MarkCoordinate = xAxisPosition - 10;
+            int y2MarkCoordinate = xAxisPosition + 10;
+            int yStringCoordinate = xAxisPosition + 13 + stringHeight;
             String labelString;
 
             for (int i = 0; i < 11; i++) {
-                g.drawLine((int) (borderWidth + markDistance * i), xAxisPosition - 10,
-                        (int) (borderWidth + markDistance * i),
-                        xAxisPosition + 10);
-                labelString = String.format("%.2f", maxValue * (i / 10.0));
 
-                g.drawString(labelString,
-                        (int) (borderWidth + markDistance * i) - (g.getFontMetrics().stringWidth(labelString)) / 2,
-                        xAxisPosition + 10 + 3 + stringHeight);
+                int xMarkCoordinate = borderWidth + i * markDistance;
+                g.drawLine(xMarkCoordinate, y1MarkCoordinate, xMarkCoordinate, y2MarkCoordinate);
+                labelString = String.format("%.2f", maxValue * (i / 10.0));
+                int xStringCoordinate = xMarkCoordinate - g.getFontMetrics().stringWidth(labelString) / 2;
+                g.drawString(labelString, xStringCoordinate, yStringCoordinate);
 
             }
 
@@ -165,20 +184,19 @@ public class JavaGraphs extends JFrame implements ActionListener {
             g.setColor(Color.BLACK);
             int markDistance = (int) (drawHeight * 0.85) / 10;
             int yAxisPosition = borderWidth; // the x value for the left of the graph (y-axis)
-            String labelString;
             int lowestMarkHeight = height - borderWidth;
+            int x1MarkCoordinate = yAxisPosition + 10;
+            int x2MarkCoordinate = yAxisPosition - 10;
+            String labelString;
 
             for (int i = 0; i < 11; i++) {
-                int markOffset = i * markDistance;
 
-                g.drawLine(yAxisPosition - 10, lowestMarkHeight - markOffset, yAxisPosition + 10,
-                        lowestMarkHeight - markOffset);
-
+                int yMarkCoordinate = lowestMarkHeight - i * markDistance;
+                g.drawLine(x1MarkCoordinate, yMarkCoordinate, x2MarkCoordinate, yMarkCoordinate);
                 labelString = String.format("%.2f", maxValue * (i / 10.0));
-                int stringWidth = g.getFontMetrics().stringWidth(labelString);
-
-                g.drawString(labelString, yAxisPosition - 13 - stringWidth,
-                        (lowestMarkHeight - markOffset) + stringHeight / 2);
+                int xStringCoordinate = yAxisPosition - (13 + g.getFontMetrics().stringWidth(labelString));
+                int yStringCoordinate = yMarkCoordinate + stringHeight / 2;
+                g.drawString(labelString, xStringCoordinate, yStringCoordinate);
 
             }
         }
@@ -189,7 +207,7 @@ public class JavaGraphs extends JFrame implements ActionListener {
 
         // *****Add your code here*****
         g.clearRect(0, 0, getWidth(), getHeight());
-        drawBorder(g);
+        drawBorder();
         drawAxisLabels();
 
         Bar bar;
