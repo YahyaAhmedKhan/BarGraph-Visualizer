@@ -91,7 +91,7 @@ public class JavaGraphs extends JFrame implements ActionListener {
     private void intializeBars() {
 
         double horiWidth = BarWidthDeterminer.getBarWidth(this);
-        double horiRatio = BarHeightDeterminer.getBarHeight(this);
+        double horiRatio = BarHeightDeterminer.getBarHeightRatio(this);
 
         // Deriving the vertical bar widths from the horizontal bar width:
         double vertWidth = horiWidth
@@ -109,13 +109,13 @@ public class JavaGraphs extends JFrame implements ActionListener {
             String label = dataReader.getLabels().get(i);
             double value = dataReader.getValues().get(i);
 
-            // setting the bars origin point
+            // setting the bar's origin point
             Point horiOrigin = horiPoints.get(i);
             horiOrigin.setLocation(borderWidth, (borderWidth + 2 * gap) + horiOrigin.y);
             Point vertOrigin = vertPoints.get(i);
             vertOrigin.setLocation((borderWidth + 2 * gap) + vertOrigin.x, borderWidth + drawHeight + vertOrigin.y);
 
-            // create a new bar
+            // creating new bars
             Bar hBar = BarFactory.getInstance().getHorizontalBar();
             Bar vBar = BarFactory.getInstance().getVerticalBar();
 
@@ -126,7 +126,7 @@ public class JavaGraphs extends JFrame implements ActionListener {
             hBar.setWidth(horiWidth);
             hBar.setLabel(label);
 
-            // setting the origin, height, width, and label for the horizontal bars:
+            // setting the origin, height, width, and label for the vertical bars:
             vBar.setOrigin(vertOrigin);
             vBar.setHeight(value * vertRatio);
             vBar.setOriginalHeight(value * vertRatio);
@@ -213,7 +213,7 @@ public class JavaGraphs extends JFrame implements ActionListener {
 
         // *****Add your code here*****
 
-        // g.clearRect(0, 0, getWidth(), getHeight()); // clears screen before redrawing
+        g.clearRect(0, 0, getWidth(), getHeight()); // clears screen before redrawing
         drawBorder();
         drawAxisLabels();
 
@@ -249,7 +249,7 @@ public class JavaGraphs extends JFrame implements ActionListener {
 
     @Override
     public void paint(Graphics g) {
-        super.paint(g);
+        // super.paint(g);
         draw(g);
         g.dispose();
 

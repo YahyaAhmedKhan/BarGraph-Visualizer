@@ -5,6 +5,12 @@ import java.awt.font.TextLayout;
 import java.awt.Graphics;
 
 public abstract class Bar {
+
+    /**
+     * The origin point of Bar <br><br/>
+     * For Vertical bars: the bottom left corner of the rectangle <br><br/>
+     * For Horizontal bars: the top left corner of the rectangle
+     */
     private Point origin;
     private double height;
     private double width;
@@ -20,8 +26,6 @@ public abstract class Bar {
         this.label = label;
         Random r = new Random();
         color = new Color(r.nextInt(256), r.nextInt(256), r.nextInt(256));
-
-
     }
 
     public abstract void draw(Graphics g);
