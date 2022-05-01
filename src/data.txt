@@ -1,0 +1,10 @@
+cars 10.3
+planes 6.8
+trucks 9.111
+jets 12.5
+pogo 5
+motorbikes 15.904
+lamborghini 11
+kia-sportage 7.543321
+aventador 1.50
+mercedéz-benz 5
