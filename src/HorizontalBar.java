@@ -6,6 +6,7 @@ import java.awt.Graphics2D;
 import java.awt.font.TextLayout;
 
 public class HorizontalBar extends Bar {
+
     HorizontalBar(Point origin, double width, double height, String label) {
         super(origin, width, height, label);
     }
@@ -17,15 +18,15 @@ public class HorizontalBar extends Bar {
 
         g.setColor(Color.BLACK);
         Graphics2D g2d = (Graphics2D) g;
-        float fontSize = ((float) getWidth() * 0.3f);
-        fontSize = (fontSize < 15 ? 15 : fontSize);
-        if (getTl() == null) {
-            setTL(new TextLayout(getLabel(), g.getFont().deriveFont(fontSize),
+        float fontSize = ((float) getWidth() * 0.3f); // sets the font of the label to be 0.3 times the bar's width
+        fontSize = (fontSize < 15 ? 15 : fontSize); // makes the font size 15 if font is too small
+        if (getTextLayout() == null) { // making the textLayout object of the bar if it is null
+            setTextLayout(new TextLayout(getLabel(), g.getFont().deriveFont(fontSize),
                     g2d.getFontRenderContext()));
         }
-        Point loc = new Point((int) (getOrigin().x + getHeight() + 10),
-                (int) (getOrigin().y + (getWidth() / 2) + getTl().getBounds().getHeight() / 2));
+        Point loc = new Point((int) (getOrigin().x + getHeight() + 10), // the location of the TextLayout
+                (int) (getOrigin().y + (getWidth() / 2) + getTextLayout().getBounds().getHeight() / 2));
 
-        getTl().draw(g2d, loc.x, loc.y);
+        getTextLayout().draw(g2d, loc.x, loc.y);
     }
 }

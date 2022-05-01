@@ -19,16 +19,16 @@ public class VerticalBar extends Bar {
 
         g.setColor(Color.BLACK);
         Graphics2D g2d = (Graphics2D) g;
-        if (getTl() == null) {
-            float fontSize = (float) getWidth() * 0.15f;
-            fontSize = (fontSize < 15 ? 15 : fontSize);
-            setTL(new TextLayout(getLabel(), g.getFont().deriveFont(fontSize),
+        if (getTextLayout() == null) {
+            float fontSize = (float) getWidth() * 0.15f; // font size is 0.15 times the barWidth
+            fontSize = (fontSize < 15 ? 15 : fontSize); // sets fontsize to 15 if too small
+            setTextLayout(new TextLayout(getLabel(), g.getFont().deriveFont(fontSize),
                     g2d.getFontRenderContext()));
         }
-        Point loc = new Point((int) (getOrigin().x + (getWidth() / 2.0) - (getTl().getBounds().getWidth() / 2.0)),
-                (int) (getOrigin().y - getHeight() - 10));
+        Point loc = new Point((int) (getOrigin().x + (getWidth() / 2.0) - (getTextLayout().getBounds().getWidth() / 2.0)),
+                (int) (getOrigin().y - getHeight() - 10)); // location of the TextLayout
 
-        getTl().draw(g2d, loc.x, loc.y);
+        getTextLayout().draw(g2d, loc.x, loc.y);
 
     }
 

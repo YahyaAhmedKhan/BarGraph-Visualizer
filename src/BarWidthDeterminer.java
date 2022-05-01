@@ -1,23 +1,27 @@
 public class BarWidthDeterminer {
 
-    public static double getBarWidth(JavaGraphs javaGraph){
+    /**
+     * Derives the width of the bars for a given JavaGraphs object. <br>
+     * <br/>
+     * The width found is for the Horizontal bars.
+     * 
+     * @param javaGraphs the javaGraph for which the barWidth is to be found
+     * @return the width of the bars
+     */
+    public static double getBarWidth(JavaGraphs javaGraphs) {
+        int gap = javaGraphs.getGap();
+        int drawHeight = javaGraphs.getDrawHeight();
+        int barCount = javaGraphs.getBarCount();
 
-        int gap = javaGraph.getGap();
+        // The calulation for barWidth is slightly simplified.
+        // it works by:
+        // Taking the drawHeight, removing the gap at the top, then removine half the
+        // gap at the bottom, and then dividing it by barcount, them removing gap from
+        // this value.
+        // Basically: (length occupied by the bars and the gap after each bar) / barCount - gap
+        double barWidth = (double) (drawHeight - (barCount + 3) * gap) / barCount;
 
-        int drawHeight = javaGraph.getDrawHeight();
-        int barCount = javaGraph.getBarCount();
+        return barWidth;
+    }
 
-        return ((((double) drawHeight-3*gap)/barCount)-gap);
-    } //mine ^^^
-
-    // public static double getBarWidth(JavaGraphs javaGraphs)
-    // {
-    //     int gap = javaGraphs.getGap();
-    //     int drawingHeight = javaGraphs.getDrawHeight();
-    //     int barCount = javaGraphs.getBarCount();
-    //     double barWidth = (double) (drawingHeight - (barCount + 3) * gap) / barCount;
-
-    //     return barWidth;
-    // } //tariqs ^^^
-    
 }

@@ -8,14 +8,30 @@ public class DataReader {
     private ArrayList<String> labels;
     private ArrayList<Double> values;
 
+    /**
+     * gets the list of labels of the bars, as read from the file
+     * 
+     * @return the list of the labels
+     */
     public ArrayList<String> getLabels() {
         return this.labels;
     }
 
+    /**
+     * gets the list of labels of the bars, as read from the file
+     * 
+     * @return the list of the labels
+     */
     public ArrayList<Double> getValues() {
         return this.values;
     }
 
+    /**
+     * makes a new DataReader object, that take the file's name as a string and
+     * fills up the labels and values list accordingly
+     * 
+     * @param fileName the name of the file as a string
+     */
     public DataReader(String fileName) {
 
         labels = new ArrayList<String>();
@@ -36,7 +52,7 @@ public class DataReader {
 
                 labels.add(label);
                 values.add(value);
-                if (scanner.hasNextLine())
+                if (scanner.hasNextLine()) 
                     scanner.nextLine();
             }
 
@@ -46,6 +62,5 @@ public class DataReader {
         }
 
     }
-
 
 }

@@ -9,7 +9,12 @@ public class BarLocationDeterminer {
      * <br/>
      * 
      * The points are found relative to the drawing area, not the whole Frame. The
-     * drawing area is the area within the borders
+     * drawing area is the area within the border s<br>
+     * <br/>
+     * 
+     * The first bar is always at (0,0). This simplifes the visualizing where tha bars
+     * draw from and if need be, the point can be changed according to situation, so
+     * it simplifies calculations as well.
      * 
      * @param javaGraph the JavaGraphs object to whose bar Points are to be
      *                  determined

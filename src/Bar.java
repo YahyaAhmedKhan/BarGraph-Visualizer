@@ -7,8 +7,10 @@ import java.awt.Graphics;
 public abstract class Bar {
 
     /**
-     * The origin point of Bar <br><br/>
-     * For Vertical bars: the bottom left corner of the rectangle <br><br/>
+     * The origin point of Bar <br>
+     * <br/>
+     * For Vertical bars: the bottom left corner of the rectangle <br>
+     * <br/>
      * For Horizontal bars: the top left corner of the rectangle
      */
     private Point origin;
@@ -17,8 +19,22 @@ public abstract class Bar {
     private double originalHeight;
     protected Color color;
     private String label;
-    private TextLayout getTL;
+    /**
+     * The textLayout object of the bar, used to draw the label for the bars. <br>
+     * <br/>
+     * Helps in centering the label with the bar's width and setting the right font
+     * size
+     */
+    private TextLayout textLayout;
 
+    /**
+     * makes a new bar a the Point origin, with given width and height and label
+     * 
+     * @param origin the origin point of the bar
+     * @param width  the width of the bar
+     * @param height the height(length) of the bar
+     * @param label  the label for the bar
+     */
     Bar(Point origin, double width, double height, String label) {
         this.origin = origin;
         this.width = width;
@@ -28,6 +44,11 @@ public abstract class Bar {
         color = new Color(r.nextInt(256), r.nextInt(256), r.nextInt(256));
     }
 
+    /**
+     * draws the bar
+     * 
+     * @param g the graphics object on which to draw the bar
+     */
     public abstract void draw(Graphics g);
 
     public Point getOrigin() {
@@ -70,12 +91,12 @@ public abstract class Bar {
         this.label = label;
     }
 
-    public TextLayout getTl() {
-        return this.getTL;
-    }
-    public void setTL(TextLayout tl) {
-        this.getTL = tl;
+    public TextLayout getTextLayout() {
+        return this.textLayout;
     }
 
+    public void setTextLayout(TextLayout tl) {
+        this.textLayout = tl;
+    }
 
 }
