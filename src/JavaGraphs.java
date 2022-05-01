@@ -1,12 +1,8 @@
 import javax.swing.JFrame;
 import javax.swing.SwingUtilities;
 import javax.swing.Timer;
-
+import java.awt.font.TextLayout;
 import javax.swing.JButton;
-import java.awt.geom.Rectangle2D;
-
-// import Graph.GraphArea;
-
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -20,20 +16,18 @@ public class JavaGraphs extends JFrame implements ActionListener {
     private static int borderWidth = 70;
     private static int gap = 10;
     private Timer timer;
-    private int delay = 14;
+    private int delay = 20;
     private int progress = 0;
     private int progressTime = 300;
     private int drawHeight = height - 2 * borderWidth;
     private int drawWidth = width - 2 * borderWidth;
-    private Font defaultFont = new Font("TimesRoman", Font.PLAIN, 20);
+    private Font defaultFont = new Font("Sans Fransisco", Font.PLAIN, 15);
     private int barCount;
     private DataReader dataReader;
     private Graph horizontalGraph;
     private Graph verticalGraph;
     private JButton switchButton;
     private boolean showHorizontalGraph = true;
-    private Font horiLabelFont;
-    private int tima = 0;
 
     public int getGap() {
         return gap;
@@ -70,7 +64,9 @@ public class JavaGraphs extends JFrame implements ActionListener {
 
         // ****************************
         timer = new Timer(delay, this);
+        // timer.addActionListener(this);
         timer.start();
+        System.out.println(getFont());
 
     }
 
@@ -85,23 +81,13 @@ public class JavaGraphs extends JFrame implements ActionListener {
         switchButton.setLocation(width - 100, height - 60);
         switchButton.setSize(100, 30);
         switchButton.addActionListener(this);
-        // switchButton.setPreferredSize(new Dimension(width,height));
         getContentPane().add(switchButton);
-
     }
 
     private void intializeBars() {
         double horiWidth = BarWidthDeterminer.getBarWidth(this);
-        horiLabelFont = new Font("TimesRoman", Font.PLAIN, (int) horiWidth);
-
-        // double vertWidth = horiWidth * ((double) (drawWidth - 3 * gap) / (drawHeight
-        // - 3 * gap));
         double vertWidth = horiWidth
                 * ((drawWidth - ((barCount + 3) * gap)) / (double) (drawHeight - ((barCount + 3) * gap)));
-        // System.out.println("horiWidth " + horiWidth + "\n");
-        // System.out.println("vertWidth " + vertWidth + "\n");
-        // System.out.println("vert bar draw width " + (drawWidth - 3 * gap) + "\n");
-        // System.out.println("hori bar draw height " + (drawHeight - 3 * gap) + "\n");
 
         double horiRatio = BarHeightDeterminer.getBarHeight(this);
         double vertRatio = horiRatio * ((double) drawHeight / drawWidth);
@@ -137,16 +123,12 @@ public class JavaGraphs extends JFrame implements ActionListener {
             horizontalGraph.getBarList().add(hBar);
             verticalGraph.getBarList().add(vBar);
 
-            // System.out.println("vP\n" + vertPoints);
-            // System.out.println();
-            // System.out.println("hP\n"+ horiPoints);
-
         }
     }
 
-    private void drawBorder() {
-        Graphics2D g2d = (Graphics2D) getGraphics();
-        g2d.drawRect(borderWidth, borderWidth, width - 2 * borderWidth, height - 2 * borderWidth);
+    private void drawBorder(Graphics g) {
+
+        g.drawRect(borderWidth, borderWidth, width - 2 * borderWidth, height - 2 * borderWidth);
 
     }
 
@@ -156,49 +138,31 @@ public class JavaGraphs extends JFrame implements ActionListener {
      */
     private void drawAxisLabels() {
         boolean horizontal = showHorizontalGraph;
-        Graphics2D g2d = (Graphics2D) getGraphics();
+        Graphics2D g = (Graphics2D) getGraphics();
         double maxValue = Collections.max(getDataReader().getValues());
-        int stringHeight = (g2d.getFontMetrics().getAscent());
-        setFont(defaultFont);
-
-        // int stringHeight = (g2d.getFontMetrics().getAscent() +
-        // g2d.getFontMetrics().getDescent()) / 2; //upper definiton is better
-        //
-
+        int stringHeight = (g.getFontMetrics().getAscent());
         if (horizontal) { // horizontal graph, labels on x-axis
-            g2d.setColor(Color.BLACK);
+
+            g.setColor(Color.BLACK);
             double markDistance = (drawWidth * 0.85) / 10;
             int xAxisPosition = height - borderWidth; // the y value for the bottom of the graph (x-axis)
             String labelString;
 
-            // DRAWING THE HORIZONTAL DASHES
-            // dash is drawLine at (x1,y1) to (x2,y2)
-            // y1 = ten pixels down of x-axis | y2 = ten pixels up of x-axis
-            // x1 = x2 = (x coord of 0 mark) + (markDistance * i) {i = iteration}
-            // x1 = x2 obviously, mark is at same x-level
-
-            // DRAWING THE NUMBERS ON AXIS
-            // Bottom left of string is at (x, y) in drawString function
-            // Top of label should be at: (x-axis level),
-            // Then further 10 pixels down for dash-mark,
-            // Then further down 3 pixels to give gap bw dash and label
-            // So then drawString is at this height, plus [string's height]
-
             for (int i = 0; i < 11; i++) {
-                g2d.drawLine((int) (borderWidth + markDistance * i), xAxisPosition - 10,
+                g.drawLine((int) (borderWidth + markDistance * i), xAxisPosition - 10,
                         (int) (borderWidth + markDistance * i),
                         xAxisPosition + 10);
                 labelString = String.format("%.2f", maxValue * (i / 10.0));
 
-                g2d.drawString(labelString,
-                        (int) (borderWidth + markDistance * i) - (g2d.getFontMetrics().stringWidth(labelString)) / 2,
+                g.drawString(labelString,
+                        (int) (borderWidth + markDistance * i) - (g.getFontMetrics().stringWidth(labelString)) / 2,
                         xAxisPosition + 10 + 3 + stringHeight);
 
             }
 
         } else { // vertical graph, labels on y-axis
 
-            g2d.setColor(Color.BLACK);
+            g.setColor(Color.BLACK);
             int markDistance = (int) (drawHeight * 0.85) / 10;
             int yAxisPosition = borderWidth; // the x value for the left of the graph (y-axis)
             String labelString;
@@ -207,96 +171,62 @@ public class JavaGraphs extends JFrame implements ActionListener {
             for (int i = 0; i < 11; i++) {
                 int markOffset = i * markDistance;
 
-                // DRAWING THE VERTICAL DASHES
-                // dash at (x1,y1) to (x2,y2)
-                // x1 = ten pixels left of y-axis | x2 = ten pixels right of y-axis
-                // y1 = y2 = (y coord of 0 mark) - (markDistance * i) {i = iteration}
-                // y1 = y2 obviously, mark is at same y-level
-                // y is MINUS markDistance because y-value decreases as you go up the axis
-
-                // DRAWING THE NUMBERS ON AXIS
-                // Bottom left of string is at (x, y) in drawString function
-                // Top of label should be at: (x-axis level),
-                // Then further 10 pixels down for dash-mark,
-                // Then further down 3 pixels to give gap bw dash and label
-                // So then drawString is at this height, plus [string's height]
-
-                g2d.drawLine(yAxisPosition - 10, lowestMarkHeight - markOffset, yAxisPosition + 10,
+                g.drawLine(yAxisPosition - 10, lowestMarkHeight - markOffset, yAxisPosition + 10,
                         lowestMarkHeight - markOffset);
 
-                // labelString = maxValue != (int) maxValue ? String.format("%.2f", maxValue *
-                // ((10 - i) / 10.0)) : Integer.toString((int) (maxValue * ((10 - i) / 10.0)) );
-                // System.out.println(g2d.getFontMetrics().stringWidth(labelString));
                 labelString = String.format("%.2f", maxValue * (i / 10.0));
-                int stringWidth = g2d.getFontMetrics().stringWidth(labelString);
+                int stringWidth = g.getFontMetrics().stringWidth(labelString);
 
-                g2d.drawString(labelString, yAxisPosition - 13 - stringWidth,
+                g.drawString(labelString, yAxisPosition - 13 - stringWidth,
                         (lowestMarkHeight - markOffset) + stringHeight / 2);
 
-                // //draw rects
-                // Rectangle2D a = g2d.getFontMetrics().getStringBounds((labelString), g2d);
-                // a.setFrame(axis - borderWidth/2 -
-                // g2d.getFontMetrics().stringWidth(labelString)/2, (int) ((borderWidth + 0.15 *
-                // drawHeight + i * markDistance) + stringHeight / 2) - stringHeight,
-                // a.getWidth(), stringHeight);
-                // g2d.draw(a);
-                // }
-                // g2d.drawRect((axis - 13 - stringWidth), ((lowestMarkHeight - markOffset) +
-                // stringHeight / 2)-stringHeight, stringWidth,
-                // stringHeight);
-                ;
             }
         }
 
     }
 
     void draw(Graphics g) {
-        Toolkit.getDefaultToolkit().sync();
 
-        Graphics2D g2d = (Graphics2D) g;
         // *****Add your code here*****
-        // setFont(defaultFont);
-        // g2d.clearRect(0, 0, getWidth(), getHeight());
-        drawBorder();
+        g.clearRect(0, 0, getWidth(), getHeight());
+        drawBorder(g);
         drawAxisLabels();
+
+        Bar bar;
         if (progress < progressTime) {
+            progress++;
             for (int i = 0; i < barCount; i++) {
-                Bar bar = horizontalGraph.getBarList().get(i);
+                bar = horizontalGraph.getBarList().get(i);
                 bar.setHeight((int) (bar.getOriginalHeight() * progress * progress / (progressTime * progressTime)));
                 bar = verticalGraph.getBarList().get(i);
                 bar.setHeight((int) (bar.getOriginalHeight() * progress * progress / (progressTime * progressTime)));
             }
         }
-        progress++;
+
+        // setFont(defaultFont);
 
         if (showHorizontalGraph) {
-            // setFont(horiLabelFont);
+
             horizontalGraph.drawBars(this);
         } else
             verticalGraph.drawBars(this);
 
+        // Toolkit.getDefaultToolkit().sync();
         // ****************************
     }
 
     public void paint(Graphics g) {
-        super.paint(g);
+        // super.paint(g);
         draw(g);
-        g.dispose();
-
+        // g.dispose();
+        // Toolkit.getDefaultToolkit().sync();
         // switchButton.revalidate();
         switchButton.repaint();
 
     }
 
     public static void main(String[] args) throws Exception {
-
-        SwingUtilities.invokeLater(new Runnable() {
-            @Override
-            public void run() {
-                new JavaGraphs(new DataReader("data.txt")).setVisible(true);
-
-            }
-        });
+        new JavaGraphs(new DataReader("data.txt")).setVisible(true);
     }
 
     @Override
@@ -305,10 +235,6 @@ public class JavaGraphs extends JFrame implements ActionListener {
         if (e.getSource() == switchButton) {
             showHorizontalGraph ^= true;
         }
-        // tima++;
-        // if (tima % 1  == 0) {
-        //     repaint();
-        // }
 
         repaint();
     }

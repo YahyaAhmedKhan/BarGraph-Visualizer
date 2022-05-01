@@ -2,6 +2,7 @@ import java.awt.Point;
 import java.text.CollationElementIterator;
 import java.awt.Color;
 import java.util.Random;
+import java.awt.font.TextLayout;
 import java.awt.Graphics;
 
 public abstract class Bar {
@@ -11,6 +12,7 @@ public abstract class Bar {
     private double originalHeight;
     protected Color color;
     private String label;
+    protected TextLayout tl;
 
     Bar(Point origin, double width, double height, String label) {
         this.origin = origin;
@@ -19,6 +21,7 @@ public abstract class Bar {
         this.label = label;
         Random r = new Random();
         color = new Color(r.nextInt(256), r.nextInt(256), r.nextInt(256));
+
 
     }
 

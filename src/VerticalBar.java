@@ -7,7 +7,18 @@ public class VerticalBar extends Bar {
 
     VerticalBar(Point origin, double width, double height, String label) {
         super(origin, width, height, label);
+        
     }
+
+    /*
+       Graphics2D g = ...;
+   Point2D loc = ...;
+   Font font = Font.getFont("Helvetica-bold-italic");
+   FontRenderContext frc = g.getFontRenderContext();
+   TextLayout layout = new TextLayout("This is a string", font, frc);
+   layout.draw(g, (float)loc.getX(), (float)loc.getY());
+   */
+
 
     @Override
     public void draw(Graphics g) {
@@ -20,5 +31,6 @@ public class VerticalBar extends Bar {
         g.drawString(getLabel(), (int) (getOrigin().x + (getWidth() / 2.0) - (stringWidth/2.0) ),(int) (getOrigin().y - getHeight() - 10));
 
     }
+
 
 }
