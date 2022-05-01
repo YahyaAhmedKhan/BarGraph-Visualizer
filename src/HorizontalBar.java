@@ -16,7 +16,7 @@ public class HorizontalBar extends Bar {
         g.fillRect(getOrigin().x, getOrigin().y, (int) getHeight(), (int) getWidth());
 
         g.setColor(Color.BLACK);
-        Graphics2D g2d = (Graphics2D) g;
+     Graphics2D g2d = (Graphics2D) g;
         float fontSize = ((float) getWidth() * 0.3f);
         fontSize = (fontSize < 15 ? 15 : fontSize);
         if (getTl() == null) {

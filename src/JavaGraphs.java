@@ -14,7 +14,7 @@ public class JavaGraphs extends JFrame implements ActionListener {
     private static int borderWidth = 70;
     private static int gap = 10;
     private Timer timer;
-    private int delay = 20;
+    private int delay = 14;
     private int progress = 0;
     private int progressTime = 300;
     private int drawHeight = height - 2 * borderWidth;
@@ -143,9 +143,9 @@ public class JavaGraphs extends JFrame implements ActionListener {
     /**
      * Draws the rectangular border within which the bars are drawn.
      */
-    private void drawBorder() { // Done by Tariq
+    private void drawBorder(Graphics g) { // Done by Tariq
 
-        getGraphics().drawRect(borderWidth, borderWidth, drawWidth, drawHeight);
+        g.drawRect(borderWidth, borderWidth, drawWidth, drawHeight);
 
     }
 
@@ -153,9 +153,9 @@ public class JavaGraphs extends JFrame implements ActionListener {
      * Draws the axis marks (on every 10% percent of largest bar),
      * also draws the number labels on these marks.
      */
-    private void drawAxisLabels() {
+    private void drawAxisLabels(Graphics g) {
         boolean horizontal = showHorizontalGraph;
-        Graphics g = getGraphics();
+        // Graphics g = getGraphics();
         double maxValue = Collections.max(getDataReader().getValues());
         int stringHeight = (g.getFontMetrics().getAscent());
 
@@ -198,6 +198,7 @@ public class JavaGraphs extends JFrame implements ActionListener {
                                                                                            // gap away from mark)
                 int labelY = markY + stringHeight / 2; // y-coord for label
                 g.drawString(label, labelX, labelY); // drawing the number label
+                // Toolkit.getDefaultToolkit().sync();
 
             }
         }
@@ -214,8 +215,8 @@ public class JavaGraphs extends JFrame implements ActionListener {
         // *****Add your code here*****
 
         g.clearRect(0, 0, getWidth(), getHeight()); // clears screen before redrawing
-        drawBorder();
-        drawAxisLabels();
+        drawBorder(g);
+        drawAxisLabels(g);
 
         Bar bar;
 
@@ -238,11 +239,11 @@ public class JavaGraphs extends JFrame implements ActionListener {
 
         // Draws either of the 2 graphs depending on selection:
         if (showHorizontalGraph)
-            horizontalGraph.drawBars(this);
+            horizontalGraph.drawBars(this, g);
         else
-            verticalGraph.drawBars(this);
+            verticalGraph.drawBars(this, g);
 
-        switchButton.repaint();
+        // switchButton.repaint();
 
         // ****************************
     }
@@ -251,7 +252,8 @@ public class JavaGraphs extends JFrame implements ActionListener {
     public void paint(Graphics g) {
         // super.paint(g);
         draw(g);
-        g.dispose();
+
+        Toolkit.getDefaultToolkit().sync();
 
     }
 

@@ -8,7 +8,7 @@ public abstract class Graph {
         barList = new ArrayList<Bar>();
     }
     
-    public abstract void drawBars(JavaGraphs javaGraph);
+    public abstract void drawBars(JavaGraphs javaGraph, Graphics g);
 
     public ArrayList<Bar> getBarList() {
         return barList;
